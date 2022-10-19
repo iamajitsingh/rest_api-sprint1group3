@@ -101,9 +101,9 @@
 * Ajit Singh - [@iamajitsingh](https://github.com/iamajitsingh)
 * T Harshasai -  [@Harshasai454](https://github.com/Harshasai454)
 * Siddhi Khanvilkar - [@siddhikhanvilkar](https://github.com/siddhikhanvilkar)
-* Divyangna Kumari Sinha - [@lxdia](https://github.com/lxdia)
-* Janhavi Paruchuri 
-
+* Divyangna Kumari Sinha - [@Ixdia](https://github.com/Ixdia)
+* Janhavi Paruchuri [@anvija](https://github.com/anvija)
+* Sravan - [@sai-0402](https://github.como/sai-0402)
 Project Link: [https://github.com/iamajitsingh/rest_api-sprint1group3/](https://github.com/iamajitsingh/rest_api-sprint1group3/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
