@@ -8,7 +8,7 @@
     <img src="https://github.com/othneildrew/Best-README-Template/blob/master/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-<h3 align="center">Case Study Sprint 1-Group 3</h3>
+<h3 align="center">Employee Laptop Delivery Tracking</h3>
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -18,6 +18,12 @@
   <p align="center">
     Case Study solution presented by group 3 for sprint 1 as a part of Capgemini Training (Java EE with Devops and Cloud (AWS)).
     <br />
+    Employees in organization are frequently on move. Laptop is a device, that can be quickly carried across locations. Also requirements related to hardware and software keep on changing , hence 
+	frequent updates in device is required. <br/>
+	An employee has to go through the lengthy process to connect the IT support to get the request for 
+	a laptop registered, and has to frequently follow up with IT team to cross check delivery status. <br />
+	This consumes lot of time. Quick repair, update and tracking of delivery will ensure faster services. Tracking of delivery status of 
+	devices will ensure safe delivery of device across location. <br />
     <a href="https://github.com/iamajitsingh/rest_api-sprint1group3"><strong>Explore documentation »</strong></a>
     <br />
     <br />
@@ -104,6 +110,7 @@
 * Divyangna Kumari Sinha - [@Ixdia](https://github.com/Ixdia)
 * Janhavi Paruchuri [@anvija](https://github.com/anvija)
 * Sravan - [@sai-0402](https://github.como/sai-0402)
+<br/>
 Project Link: [https://github.com/iamajitsingh/rest_api-sprint1group3/](https://github.com/iamajitsingh/rest_api-sprint1group3/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
