@@ -14,6 +14,6 @@ public class Device {
 	private String conpanyName;
 	private String deviceConfig;
 	
-	private Employee empId;
+	private String empId;
 
 }

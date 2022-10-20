@@ -17,6 +17,6 @@ public class Address {
 	private String pinCode;
 	private String country;
 	
-	private Employee empId;
+	private String empId;
 
 }

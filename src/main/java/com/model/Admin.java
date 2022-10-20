@@ -17,7 +17,7 @@ public class Admin {
 	 private String designation;
 	 private String password;
 	 
-	 private Request requestlist; 
+	 private String requestlist; 
 	
 
 }

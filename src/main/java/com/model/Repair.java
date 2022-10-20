@@ -12,10 +12,10 @@ public class Repair
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int repairId;
     private String status;
-    private Employee empId;
+    private String empId;
     private String issue;
     private String solution;
     private String deviceConfig;
-    private float repairCost;
+    private double repairCost;
  
 }

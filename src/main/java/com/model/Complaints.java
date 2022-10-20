@@ -13,5 +13,5 @@ public class Complaints {
    private String title;
    private String description;
    private int requestId;
-   private Employee empId;
+   private String empId;
 }

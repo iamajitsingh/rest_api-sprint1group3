@@ -21,8 +21,8 @@ public class Employee {
     
     private String device;
     
-    private Address address;
+    private String address;
     
-    private Complaints complaint;
+    private String complaint;
 
 }
