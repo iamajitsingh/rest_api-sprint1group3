@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.controllerexp.SignUpException;
 import com.controllerexp.UserNotFoundException;
 import com.model.Employee;
 import com.service.EmployeeService;
@@ -22,6 +23,7 @@ public class AuthController {
 	
 	@PostMapping("/signup")
 	public ResponseEntity<?> registerUser(@RequestBody Employee employee){
+		try {
 		 boolean isAdded=employeeService.addEmployee(employee);
 		 if(!isAdded){
 	            return new ResponseEntity<>("Username or email is already taken!", HttpStatus.BAD_REQUEST);
@@ -29,7 +31,10 @@ public class AuthController {
 
 		 return new ResponseEntity<>("User registered successfully", HttpStatus.OK);
 
+	    } catch(Exception e) {
+	    	throw new SignUpException();
 	    }
+	}
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> loginuser(@RequestBody Employee user, HttpSession session) throws UserNotFoundException
@@ -69,4 +74,3 @@ public class AuthController {
 //	}
 
 }	
-
