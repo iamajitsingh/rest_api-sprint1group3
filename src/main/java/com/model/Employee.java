@@ -7,6 +7,11 @@ import lombok.Data;
 
 @Data
 @Entity
+
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"username"}),
+        @UniqueConstraint(columnNames = {"email"})
+})
 public class Employee {
 	
 	@Id
@@ -18,11 +23,10 @@ public class Employee {
     private String email;
     private String department;
     
-    
     private String device;
     
-    private String address;
-    
-    private String complaint;
-
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="fk_add_id")
+    private Address address;
+   
 }

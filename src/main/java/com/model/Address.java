@@ -2,6 +2,8 @@ package com.model;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
 
 @Data
@@ -17,6 +19,8 @@ public class Address {
 	private String pinCode;
 	private String country;
 	
-	private String empId;
+	@OneToOne(mappedBy="address")
+	@JsonIgnore
+	private Employee employee;
 
 }
