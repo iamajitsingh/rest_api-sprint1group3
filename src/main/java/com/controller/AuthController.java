@@ -1,11 +1,15 @@
 package com.controller;
 
+import java.util.NoSuchElementException;
+
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.controllerexp.UserNotFoundException;
 import com.model.Employee;
 import com.service.EmployeeService;
 
@@ -27,6 +31,27 @@ public class AuthController {
 
 	    }
 	
+	@PostMapping("/login")
+	public ResponseEntity<?> loginuser(@RequestBody Employee user, HttpSession session) throws UserNotFoundException
+	    {
+			try {
+	        Employee empexists=employeeService.getEmployee(user.getEmpId());
+	        if(empexists==null)
+	        {
+	            return new ResponseEntity<>("Invalid employee id!", HttpStatus.UNAUTHORIZED);
+	        }
+	        else{
+	            session.setAttribute("user", empexists);
+	            if (user.getUsername().equals(empexists.getUsername()) && user.getPassword().equals(empexists.getPassword())) {
+		            return new ResponseEntity<>("You have now logged in!",HttpStatus.ACCEPTED);
+		        }
+		        return new ResponseEntity<>("Username or password doesn't match!", HttpStatus.UNAUTHORIZED);
+	        }
+	    } catch(NoSuchElementException e) {
+	    	throw new UserNotFoundException();
+	    }
+			
+	    }
 	
 //	@DeleteMapping("/deleteemployee/{roll}")
 //	public String deleteEmployee(@PathVariable int roll) {

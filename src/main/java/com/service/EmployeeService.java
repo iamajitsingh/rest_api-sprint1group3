@@ -34,9 +34,9 @@ public class EmployeeService {
 	        return true;
 	}
 	
-//	public Optional<Employee> getEmployee(int roll) {
-//		return dao.findById(roll);
-//	}
+	public Employee getEmployee(int roll) {
+		return dao.findById(roll).get();
+	}
 //	
 //	
 //	public String deleteEmployee(int roll) {
