@@ -14,9 +14,6 @@ public class TrackingService {
 	TrackingDao trackingDao;
 	
 	public void addTracking(Tracking tracking) {
-		// check if user name and password exist in dB
-
-        // else create user object
         Tracking tracking1 = new Tracking();
         tracking1.setStatus(tracking.getStatus());
         tracking1.setLocation(tracking.getLocation());

@@ -3,9 +3,12 @@ package com.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.Optional;
 
 import com.dao.EmployeeDao;
+import com.model.Complaints;
 import com.model.Employee;
 
 @Service
@@ -37,6 +40,12 @@ public class EmployeeService {
 	public Employee getEmployee(int roll) {
 		return dao.findById(roll).get();
 	}
+	
+	public List<Complaints> retriveAllUserComplaints(int id)  
+	{  
+		Employee userOptional= dao.findById(id).get();  
+		return userOptional.getComplaints();  
+	}  
 //	
 //	
 //	public String deleteEmployee(int roll) {

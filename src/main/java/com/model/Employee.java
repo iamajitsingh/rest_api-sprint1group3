@@ -1,6 +1,10 @@
 package com.model;
 
+import java.util.List;
+
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -28,5 +32,10 @@ public class Employee {
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="fk_add_id")
     private Address address;
+    
+    @OneToMany(mappedBy="employee")
+    @JsonIgnore
+    private List<Complaints> complaints;   
+
    
 }
