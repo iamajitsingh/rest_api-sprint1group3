@@ -15,7 +15,6 @@ import lombok.Data;
 @Entity
 public class Tracking {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int tracking_Id;
     private String location;
     private String status;  
