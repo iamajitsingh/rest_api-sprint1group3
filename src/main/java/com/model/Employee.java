@@ -27,11 +27,17 @@ public class Employee {
     private String email;
     private String department;
     
-    private String device;
-    
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="fk_add_id")
     private Address address;
+    
+    @OneToOne(mappedBy="employee")
+    @JsonIgnore
+    private Device device;
+    
+    @OneToOne(mappedBy="employee")
+    @JsonIgnore
+    private RepairToken repairToken;
     
     @OneToMany(mappedBy="employee")
     @JsonIgnore
