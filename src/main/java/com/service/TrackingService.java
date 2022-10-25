@@ -17,7 +17,7 @@ public class TrackingService {
         Tracking tracking1 = new Tracking();
         tracking1.setStatus(tracking.getStatus());
         tracking1.setLocation(tracking.getLocation());
-        tracking1.setTracking_Id(tracking.getTracking_Id());
+        tracking1.setTrackingId(tracking.getTrackingId());
         trackingDao.save(tracking1);
 }
 

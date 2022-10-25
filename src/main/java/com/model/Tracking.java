@@ -1,26 +1,22 @@
 package com.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
- 
-
+import javax.persistence.*;
 import lombok.Data;
 
  
-
 @Data
 @Entity
 public class Tracking {
     @Id
-    private int tracking_Id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int trackingId;
     private String location;
     private String status;  
     
-    
-
- 
+    public Tracking() {
+    	super();
+    }
+    @OneToOne(cascade=CascadeType.MERGE)
+    private DeliveryPerson deliveryperson;
 
 }

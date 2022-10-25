@@ -43,5 +43,8 @@ public class Employee {
     @JsonIgnore
     private List<Complaints> complaints;   
 
-   
+    @OneToMany(mappedBy="employee")
+    @JsonIgnore
+    private List<Request> request;
+
 }

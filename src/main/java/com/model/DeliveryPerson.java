@@ -1,20 +1,32 @@
 package com.model;
 
+import javax.persistence.*;
 
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
-
-
-@Entity
 @Data
-public class DeliveryPerson
-{
-	  @Id
-	  private int personId;
-	  private String personName;
-	  private String contactNo;
+@Entity
+public class DeliveryPerson {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int personId;
+	private String name;
+	private String contactNo;
+	
+	public DeliveryPerson() {
+		super();
+	}
+	
+	@OneToOne(mappedBy="deliveryperson")
+	@JsonIgnore
+	private Tracking tracking;
+	
+	@OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name="fk_req_id")
+    private Request request;
+    
+
 }

@@ -39,7 +39,7 @@ public class TrackingController {
 			StringBuilder rtnString=new StringBuilder();
 			rtnString.append("Status is: "+obj.getStatus());
 			rtnString.append("\nLocation is: "+obj.getLocation());
-			rtnString.append("\nTracking id: "+obj.getTracking_Id());
+			rtnString.append("\nTracking id: "+obj.getTrackingId());
 			String rtn= rtnString.toString();
 			return new ResponseEntity<>(rtn, HttpStatus.OK);	
 		} catch(Exception e) {
