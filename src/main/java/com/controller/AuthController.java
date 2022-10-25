@@ -10,18 +10,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.controllerexp.SignUpException;
+import com.controllerexp.TokenNotFoundException;
 import com.controllerexp.UserNotFoundException;
+import com.model.Device;
 import com.model.Employee;
 import com.service.EmployeeService;
+import com.service.RepairService;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api")
 public class AuthController {
 
 	@Autowired
 	private EmployeeService employeeService;
 	
-	@PostMapping("/signup")
+	@Autowired
+	private RepairService rservice;
+	
+	@PostMapping("/auth/signup")
 	public ResponseEntity<?> registerUser(@RequestBody Employee employee){
 		try {
 		 boolean isAdded=employeeService.addEmployee(employee);
@@ -36,7 +42,7 @@ public class AuthController {
 	    }
 	}
 	
-	@PostMapping("/login")
+	@PostMapping("/auth/login")
 	public ResponseEntity<?> loginuser(@RequestBody Employee user, HttpSession session) throws UserNotFoundException
 	    {
 			try {
@@ -58,6 +64,40 @@ public class AuthController {
 			
 	    }
 	
+	@GetMapping("/employee/{id}/device")  
+	public ResponseEntity<?> retriveEmployeeDeviceDetails(@PathVariable int id) 	{
+		try {
+			Employee employee=rservice.getEmployee(id);
+			Device empdevice=employee.getDevice();
+			return new ResponseEntity<Device>(empdevice,HttpStatus.OK);
+			
+		} catch(Exception e) {
+			throw new UserNotFoundException();
+		}
+	
+	}
+	
+	@GetMapping("/viewRepairToken/{employeeid}/{repairid}")
+	public ResponseEntity<?> getRepairToken(@PathVariable int employeeid){
+		try {
+			Employee employee=rservice.getEmployee(employeeid);
+			return new ResponseEntity<String>("Your repair token is: "+ employee.getRepairToken().getToken(), HttpStatus.OK);
+
+		} catch(Exception e) {
+			throw new UserNotFoundException();
+		}
+	}
+	
+	@GetMapping("/viewTokenStatus/{token}")
+	public ResponseEntity<?> getRepairTokenStatus(@PathVariable String token){
+		try {
+			String myTokenService=rservice.getRepairTokenStatus(token);
+			return new ResponseEntity<String>(myTokenService, HttpStatus.OK);
+		} catch(Exception e) {
+			throw new TokenNotFoundException();
+		}
+	}
+	
 //	@DeleteMapping("/deleteemployee/{roll}")
 //	public String deleteEmployee(@PathVariable int roll) {
 //		return employeeService.deleteEmployee(roll);
@@ -68,9 +108,9 @@ public class AuthController {
 //		return employeeService.updateEmployee(employee);
 //	}
 //	
-//	@GetMapping("/all/{roll}")
-//	public Optional<Employee> getEmployee(@PathVariable(name="roll") int roll) {
-//		return employeeService.getEmployee(roll);
+//	@GetMapping("/all/{id}")
+//	public Optional<Employee> getEmployee(@PathVariable(name="id") int id) {
+//		return employeeService.getEmployee(id);
 //	}
 
 }	

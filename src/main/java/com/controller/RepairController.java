@@ -1,6 +1,8 @@
 package com.controller;
 
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,11 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import com.controllerexp.DeviceNotFoundException;
 import com.controllerexp.DeviceSignUpException;
 import com.controllerexp.RepairNotFoundException;
-import com.controllerexp.TokenNotFoundException;
-import com.controllerexp.UserNotFoundException;
 
 import com.model.Device;
-import com.model.Employee;
 import com.model.Repair;
 import com.service.RepairService;
 
@@ -33,19 +32,6 @@ public class RepairController {
 		} catch(Exception e) {
 			throw new DeviceSignUpException();
 		}
-	}
-	
-	@GetMapping("/employee/{id}/device")  
-	public ResponseEntity<?> retriveEmployeeDeviceDetails(@PathVariable int id) 	{
-		try {
-			Employee employee=rservice.getEmployee(id);
-			Device empdevice=employee.getDevice();
-			return new ResponseEntity<Device>(empdevice,HttpStatus.OK);
-			
-		} catch(Exception e) {
-			throw new UserNotFoundException();
-		}
-	
 	}
 
 	
@@ -71,28 +57,6 @@ public class RepairController {
 		}
 	}
 	
-
-	@GetMapping("/viewRepairToken/{employeeid}")
-	public ResponseEntity<?> getRepairToken(@PathVariable int employeeid){
-		try {
-			Employee employee=rservice.getEmployee(employeeid);
-			return new ResponseEntity<String>("Your repair token is: "+ employee.getRepairToken().getToken(), HttpStatus.OK);
-
-		} catch(Exception e) {
-			throw new UserNotFoundException();
-		}
-	}
-	
-	@GetMapping("/viewTokenStatus/{token}")
-	public ResponseEntity<?> getRepairTokenStatus(@PathVariable String token){
-		try {
-			String myTokenService=rservice.getRepairTokenStatus(token);
-			return new ResponseEntity<String>(myTokenService, HttpStatus.OK);
-		} catch(Exception e) {
-			throw new TokenNotFoundException();
-		}
-	}
-	
 	@PostMapping("/updateRepairStatus/{repairid}/{status}")
 	public ResponseEntity<String> UpdateStatus(@PathVariable("repairid")int repairid,@PathVariable("status")String status) {
 			try {
@@ -102,6 +66,21 @@ public class RepairController {
 			}catch(Exception e) {
 				throw new RepairNotFoundException();
 			}
+			
+		}
+	
+	@PostMapping("/updateDeliveryDate/{repairid}")
+	public ResponseEntity<String> UpdateStatus(@PathVariable("repairid")int repairid, @RequestBody Date date) {
+		try {
+			Repair repair=rservice.getRepair(repairid);
+			repair.setDeliveryDate(date);
+			rservice.addRepair(repair);
+			String output = repair.getDeliveryDate().toString().substring(0, 10);  
+			return new ResponseEntity<String>("Request status updated: Repair with id "+repair.getRepairId()+" has delivery date "+output,HttpStatus.OK);
+
+		}	catch(Exception e) {
+			throw new RepairNotFoundException();
+		}
 			
 		}
 }
