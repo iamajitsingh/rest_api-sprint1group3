@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.controllerexp.NotLoggedInException;
 import com.controllerexp.SignUpException;
 import com.controllerexp.TokenNotFoundException;
 import com.controllerexp.UserNotFoundException;
+import com.controllerexp.UserOrRepairNotFoundException;
 import com.model.Device;
 import com.model.Employee;
 import com.service.EmployeeService;
@@ -26,6 +28,10 @@ public class AuthController {
 	
 	@Autowired
 	private RepairService rservice;
+	
+    @Autowired
+    HttpSession session;
+
 	
 	@PostMapping("/auth/signup")
 	public ResponseEntity<?> registerUser(@RequestBody Employee employee){
@@ -64,6 +70,37 @@ public class AuthController {
 			
 	    }
 	
+
+    @GetMapping("/userprofile")
+    public ResponseEntity<?> getLoggedInUser() throws NotLoggedInException{
+    	try {
+    		Employee user = (Employee) session.getAttribute("user");
+        	StringBuilder rtn=new StringBuilder();
+        	rtn.append("User logged in: "+user.getUsername());
+        	rtn.append("\nName: "+user.getName());
+        	rtn.append("\nEmail: "+user.getEmail());
+        	rtn.append("\nDepartment: "+user.getDepartment());
+        	String rtnstring=rtn.toString();
+    		return new ResponseEntity<>(rtnstring, HttpStatus.OK);
+    	}
+    	catch (Exception e) {
+    		throw new NotLoggedInException();
+    	}
+    	
+    }
+    
+    @GetMapping("/logout")
+    public ResponseEntity<?> logOutUser() throws NotLoggedInException{
+    	try {
+    		session.invalidate();
+        	return new ResponseEntity<>("You have logged out successfully", HttpStatus.OK);
+
+    	}
+    	catch(Exception e) {
+    		throw new NotLoggedInException();
+    	}
+    }
+    
 	@GetMapping("/employee/{id}/device")  
 	public ResponseEntity<?> retriveEmployeeDeviceDetails(@PathVariable int id) 	{
 		try {
@@ -77,14 +114,14 @@ public class AuthController {
 	
 	}
 	
-	@GetMapping("/viewRepairToken/{employeeid}/{repairid}")
+	@GetMapping("/viewRepairToken/{employeeid}/")
 	public ResponseEntity<?> getRepairToken(@PathVariable int employeeid){
 		try {
 			Employee employee=rservice.getEmployee(employeeid);
 			return new ResponseEntity<String>("Your repair token is: "+ employee.getRepairToken().getToken(), HttpStatus.OK);
 
 		} catch(Exception e) {
-			throw new UserNotFoundException();
+			throw new UserOrRepairNotFoundException();
 		}
 	}
 	
