@@ -62,6 +62,9 @@ public class RepairService {
 		return repair;
 	}
 	
+	public void updateRepair(Repair repair) {
+		rdao.save(repair);
+	}
 	public String getRepairTokenStatus(String token) {
 		Repair repair=rtokendao.findByToken(token).get().getRepair();
 		String myToken=repair.getRepairToken().getToken();

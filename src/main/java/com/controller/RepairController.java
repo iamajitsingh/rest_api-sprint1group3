@@ -74,7 +74,7 @@ public class RepairController {
 		try {
 			Repair repair=rservice.getRepair(repairid);
 			repair.setDeliveryDate(date);
-			rservice.addRepair(repair);
+			rservice.updateRepair(repair);
 			String output = repair.getDeliveryDate().toString().substring(0, 10);  
 			return new ResponseEntity<String>("Request status updated: Repair with id "+repair.getRepairId()+" has delivery date "+output,HttpStatus.OK);
 
