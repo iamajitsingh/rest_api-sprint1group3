@@ -2,6 +2,7 @@
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,26 +12,28 @@ import org.springframework.web.bind.annotation.*;
 import com.controllerexp.DeviceNotFoundException;
 import com.controllerexp.DeviceSignUpException;
 import com.controllerexp.RepairNotFoundException;
-
+import com.dao.RepairDao;
 import com.model.Device;
 import com.model.Repair;
 import com.service.RepairService;
 
 @RestController
-<span class="fc" id="L20">public class RepairController {</span>
+<span class="fc" id="L21">public class RepairController {</span>
 
 	@Autowired
 	private RepairService rservice;
 	
+	@Autowired
+	private RepairDao rdao;
 	
 	@PostMapping(&quot;/addDeviceDetails&quot;)
 	public ResponseEntity&lt;?&gt; addDevice(@RequestBody Device device){
 		try {
-<span class="nc" id="L29">			rservice.addDevice(device);</span>
-<span class="nc" id="L30">			return new ResponseEntity&lt;&gt;(&quot;Device added to employee&quot;, HttpStatus.OK);</span>
+<span class="nc" id="L32">			rservice.addDevice(device);</span>
+<span class="nc" id="L33">			return new ResponseEntity&lt;&gt;(&quot;Device added to employee&quot;, HttpStatus.OK);</span>
 
-<span class="nc" id="L32">		} catch(Exception e) {</span>
-<span class="nc" id="L33">			throw new DeviceSignUpException();</span>
+<span class="nc" id="L35">		} catch(Exception e) {</span>
+<span class="nc" id="L36">			throw new DeviceSignUpException();</span>
 		}
 	}
 
@@ -38,11 +41,11 @@ import com.service.RepairService;
 	@PostMapping(&quot;/addRepair&quot;)
 	public ResponseEntity&lt;?&gt; addRepair(@RequestBody Repair repair) throws DeviceNotFoundException{
 		try {
-<span class="nc" id="L41">			rservice.addRepair(repair);</span>
-<span class="nc" id="L42">			return new ResponseEntity&lt;&gt;(&quot;Repair request Submitted!&quot;, HttpStatus.OK);</span>
+<span class="nc" id="L44">			rservice.addRepair(repair);</span>
+<span class="nc" id="L45">			return new ResponseEntity&lt;&gt;(&quot;Repair request Submitted!&quot;, HttpStatus.OK);</span>
 			
-<span class="nc" id="L44">		} catch(Exception e) {</span>
-<span class="nc" id="L45">			throw new DeviceNotFoundException();</span>
+<span class="nc" id="L47">		} catch(Exception e) {</span>
+<span class="nc" id="L48">			throw new DeviceNotFoundException();</span>
 		}
 
 	}
@@ -50,21 +53,21 @@ import com.service.RepairService;
 	@GetMapping(&quot;/viewRepair/{repairid}&quot;)
 	public ResponseEntity&lt;?&gt; getRepair(@PathVariable int repairid){
 		try {
-<span class="nc" id="L53">			Repair repair=rservice.getRepair(repairid);</span>
-<span class="nc" id="L54">			return new ResponseEntity&lt;Repair&gt;(repair, HttpStatus.OK);</span>
-<span class="nc" id="L55">		} catch(Exception e) {</span>
-<span class="nc" id="L56">			throw new RepairNotFoundException();</span>
+<span class="nc" id="L56">			Repair repair=rservice.getRepair(repairid);</span>
+<span class="nc" id="L57">			return new ResponseEntity&lt;Repair&gt;(repair, HttpStatus.OK);</span>
+<span class="nc" id="L58">		} catch(Exception e) {</span>
+<span class="nc" id="L59">			throw new RepairNotFoundException();</span>
 		}
 	}
 	
 	@PostMapping(&quot;/updateRepairStatus/{repairid}/{status}&quot;)
 	public ResponseEntity&lt;String&gt; UpdateStatus(@PathVariable(&quot;repairid&quot;)int repairid,@PathVariable(&quot;status&quot;)String status) {
 			try {
-<span class="nc" id="L63">				String updateStatusString=rservice.updateRepairStatus(repairid, status);</span>
-<span class="nc" id="L64">				return new ResponseEntity&lt;String&gt;(updateStatusString,HttpStatus.OK);</span>
+<span class="nc" id="L66">				String updateStatusString=rservice.updateRepairStatus(repairid, status);</span>
+<span class="nc" id="L67">				return new ResponseEntity&lt;String&gt;(updateStatusString,HttpStatus.OK);</span>
 
-<span class="nc" id="L66">			}catch(Exception e) {</span>
-<span class="nc" id="L67">				throw new RepairNotFoundException();</span>
+<span class="nc" id="L69">			}catch(Exception e) {</span>
+<span class="nc" id="L70">				throw new RepairNotFoundException();</span>
 			}
 			
 		}
@@ -72,16 +75,28 @@ import com.service.RepairService;
 	@PostMapping(&quot;/updateDeliveryDate/{repairid}&quot;)
 	public ResponseEntity&lt;String&gt; UpdateStatus(@PathVariable(&quot;repairid&quot;)int repairid, @RequestBody Date date) {
 		try {
-<span class="nc" id="L75">			Repair repair=rservice.getRepair(repairid);</span>
-<span class="nc" id="L76">			repair.setDeliveryDate(date);</span>
-<span class="nc" id="L77">			rservice.updateRepair(repair);</span>
-<span class="nc" id="L78">			String output = repair.getDeliveryDate().toString().substring(0, 10);  </span>
-<span class="nc" id="L79">			return new ResponseEntity&lt;String&gt;(&quot;Request status updated: Repair with id &quot;+repair.getRepairId()+&quot; has delivery date &quot;+output,HttpStatus.OK);</span>
+<span class="nc" id="L78">			Repair repair=rservice.getRepair(repairid);</span>
+<span class="nc" id="L79">			repair.setDeliveryDate(date);</span>
+<span class="nc" id="L80">			rservice.updateRepair(repair);</span>
+<span class="nc" id="L81">			String output = repair.getDeliveryDate().toString().substring(0, 10);  </span>
+<span class="nc" id="L82">			return new ResponseEntity&lt;String&gt;(&quot;Request status updated: Repair with id &quot;+repair.getRepairId()+&quot; has delivery date &quot;+output,HttpStatus.OK);</span>
 
-<span class="nc" id="L81">		}	catch(Exception e) {</span>
-<span class="nc" id="L82">			throw new RepairNotFoundException();</span>
+<span class="nc" id="L84">		}	catch(Exception e) {</span>
+<span class="nc" id="L85">			throw new RepairNotFoundException();</span>
 		}
 			
 		}
+	
+	// Harsha
+	
+	@GetMapping(&quot;/getrepairdetails&quot;)
+    public List&lt;Repair&gt; getrepairdetails() throws RepairNotFoundException{
+        try {
+       
+<span class="nc" id="L96">        return rdao.findAll();</span>
+<span class="nc" id="L97">    }catch(Exception e) {</span>
+<span class="nc" id="L98">        throw new RepairNotFoundException();</span>
+    }
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

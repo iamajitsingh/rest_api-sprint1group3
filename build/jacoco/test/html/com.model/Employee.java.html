@@ -50,9 +50,10 @@ public class Employee {
     @JsonIgnore
 <span class="nc" id="L51">    private List&lt;Complaints&gt; complaints;   </span>
 
-    @OneToMany(mappedBy=&quot;employee&quot;)
-    @JsonIgnore
-<span class="nc" id="L55">    private List&lt;Request&gt; request;</span>
+//    @OneToMany(mappedBy=&quot;employee&quot;)
+//    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
+<span class="fc" id="L56">    private List&lt;Request&gt; request;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

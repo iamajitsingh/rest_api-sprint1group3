@@ -53,7 +53,9 @@ public class TrackingController {
 			rtnString.append("Status is: "+obj.getStatus());
 			rtnString.append("\nLocation is: "+obj.getLocation());
 			rtnString.append("\nTracking id: "+obj.getTrackingId());
-			rtnString.append("\nThe Product will be Delivered By "+obj.getDeliveryperson().getName()+" contact details of person is "+obj.getDeliveryperson().getContactNo());
+			if(obj.getDeliveryperson()!=null) {
+				rtnString.append("\nThe Product will be Delivered By "+obj.getDeliveryperson().getName()+" contact details of person is "+obj.getDeliveryperson().getContactNo());
+			}
 			String rtn= rtnString.toString();
 			return new ResponseEntity<>(rtn, HttpStatus.OK);	
 		} catch(Exception e) {

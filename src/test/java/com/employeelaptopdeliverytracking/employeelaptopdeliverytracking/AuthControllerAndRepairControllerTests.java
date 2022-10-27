@@ -2,6 +2,8 @@ package com.employeelaptopdeliverytracking.employeelaptopdeliverytracking;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Date;
+
 import org.junit.jupiter.api.Assertions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,6 +15,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -27,6 +30,7 @@ import com.model.Device;
 import com.model.Employee;
 import com.model.Repair;
 import com.model.RepairToken;
+import com.model.Request;
 
 @SpringBootTest
 public class AuthControllerAndRepairControllerTests {
@@ -306,6 +310,27 @@ public class AuthControllerAndRepairControllerTests {
 		assertEquals("404 : \"No such repair token exists!\"", ex.getMessage());
 }
 		
+	}
+	
+	@Test
+	void testUpdateRepairStatus() throws URISyntaxException{
+		int id=1;
+		Repair repair = new Repair();
+		RestTemplate temp = new RestTemplate();
+		repair.setRepairId(id);
+		repair.setEmployeeName("ajit");
+		repair.setEmployeeUsername("iamajith");
+		repair.setStatus("Completed");
+		repair.setIssue("Desktop not working");
+		repair.setRepairCost(1000);
+		repairdao.save(repair);
+		final String url="http://localhost:"+port_number+"/updateRepairStatus/"+id+"/"+repair.getStatus()+"/";
+	 	URI uri=new URI(url);
+ 		HttpHeaders headers = new HttpHeaders();      
+		HttpEntity<Request> ht = new HttpEntity<>( headers);
+ 		ResponseEntity<String> res=temp.postForEntity(uri,ht,String.class);
+ 		Assertions.assertEquals(HttpStatus.OK,res.getStatusCode());
+		//assertEquals(true,res.toString().contains("Repair Status Updated Successfully"));
 	}
 	
 

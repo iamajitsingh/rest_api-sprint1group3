@@ -51,7 +51,8 @@ import com.service.RequestService;
 			}
 <span class="nc" id="L52">			return new ResponseEntity&lt;&gt;(&quot;Request Submitted!&quot;, HttpStatus.OK);</span>
 <span class="nc" id="L53">    	}catch(Exception e) {</span>
-<span class="nc" id="L54">        	throw new RequestCreationException();</span>
+        	//throw new RequestCreationException();
+<span class="nc" id="L55">    		return new ResponseEntity&lt;&gt;(e, HttpStatus.OK);</span>
         }
 
 	}
@@ -60,13 +61,13 @@ import com.service.RequestService;
    	public ResponseEntity&lt;?&gt; addDeliveryPersonDetails(@PathVariable int deliveryid, @RequestBody DeliveryPerson deliveryPerson) {
     	// DeliveryPersonNotFoundException
     	try {
-<span class="nc" id="L63">    	DeliveryPerson dp=ddao.findById(deliveryid).get();</span>
-<span class="nc" id="L64">       	dp.setName(deliveryPerson.getName());</span>
-<span class="nc" id="L65">       	dp.setContactNo(deliveryPerson.getContactNo());</span>
-<span class="nc" id="L66">    	ddao.save(dp);</span>
-<span class="nc" id="L67">   		return  new ResponseEntity&lt;&gt;(&quot;Delivery person: &quot;+deliveryPerson.getName(), HttpStatus.OK);</span>
-<span class="nc" id="L68">    	} catch(NoSuchElementException e) {</span>
-<span class="nc" id="L69">        	throw new DeliveryPersonNotFoundException();</span>
+<span class="nc" id="L64">    	DeliveryPerson dp=ddao.findById(deliveryid).get();</span>
+<span class="nc" id="L65">       	dp.setName(deliveryPerson.getName());</span>
+<span class="nc" id="L66">       	dp.setContactNo(deliveryPerson.getContactNo());</span>
+<span class="nc" id="L67">    	ddao.save(dp);</span>
+<span class="nc" id="L68">   		return  new ResponseEntity&lt;&gt;(&quot;Delivery person: &quot;+deliveryPerson.getName(), HttpStatus.OK);</span>
+<span class="nc" id="L69">    	} catch(NoSuchElementException e) {</span>
+<span class="nc" id="L70">        	throw new DeliveryPersonNotFoundException();</span>
         }
    	}
     
@@ -74,14 +75,14 @@ import com.service.RequestService;
 	public ResponseEntity&lt;?&gt; addDetailsForTracking(@PathVariable int requestid, @RequestBody Tracking tracking) {
     	// RequestOrDeliveryPersonNotFoundException
     	try {
-<span class="nc" id="L77">    	tdao.save(tracking);</span>
-<span class="nc" id="L78">    	Request request=requestService.getRequest(requestid);</span>
-<span class="nc" id="L79">    	DeliveryPerson dp= ddao.findByRequest(request).get();</span>
-<span class="nc" id="L80">    	dp.setTracking(tracking);</span>
-<span class="nc" id="L81">    	ddao.save(dp);</span>
-<span class="nc" id="L82">		return  new ResponseEntity&lt;&gt;(&quot;Status of laptop: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
-<span class="nc" id="L83">    	}catch(NoSuchElementException e) {</span>
-<span class="nc" id="L84">        	throw new RequestNotFoundException();</span>
+<span class="nc" id="L78">    	tdao.save(tracking);</span>
+<span class="nc" id="L79">    	Request request=requestService.getRequest(requestid);</span>
+<span class="nc" id="L80">    	DeliveryPerson dp= ddao.findByRequest(request).get();</span>
+<span class="nc" id="L81">    	dp.setTracking(tracking);</span>
+<span class="nc" id="L82">    	ddao.save(dp);</span>
+<span class="nc" id="L83">		return  new ResponseEntity&lt;&gt;(&quot;Status of laptop: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
+<span class="nc" id="L84">    	}catch(NoSuchElementException e) {</span>
+<span class="nc" id="L85">        	throw new RequestNotFoundException();</span>
         }
 	}
     
@@ -89,12 +90,12 @@ import com.service.RequestService;
     public ResponseEntity&lt;?&gt; setTrackingUpdates(@PathVariable int id, @PathVariable String update){
     	// TrackingNotFoundException
     	try {
-<span class="nc" id="L92">    	Tracking tracking=tdao.findById(id).get();</span>
-<span class="nc" id="L93">    	tracking.setStatus(update);</span>
-<span class="nc" id="L94">    	tdao.save(tracking);</span>
-<span class="nc" id="L95">    	return new ResponseEntity&lt;&gt;(&quot;Status updated: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
-<span class="nc" id="L96">    } catch(NoSuchElementException e) {</span>
-<span class="nc" id="L97">    	throw new TrackingNotFoundException();</span>
+<span class="nc" id="L93">    	Tracking tracking=tdao.findById(id).get();</span>
+<span class="nc" id="L94">    	tracking.setStatus(update);</span>
+<span class="nc" id="L95">    	tdao.save(tracking);</span>
+<span class="nc" id="L96">    	return new ResponseEntity&lt;&gt;(&quot;Status updated: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
+<span class="nc" id="L97">    } catch(NoSuchElementException e) {</span>
+<span class="nc" id="L98">    	throw new TrackingNotFoundException();</span>
     }
     }
     
@@ -102,10 +103,10 @@ import com.service.RequestService;
     public ResponseEntity&lt;?&gt; getTrackingUpdates(@PathVariable int id){
     	// TrackingNotFoundException
     	try {
-<span class="nc" id="L105">    	Tracking tracking=tdao.findById(id).get();</span>
-<span class="nc" id="L106">    	return new ResponseEntity&lt;&gt;(&quot;Status of laptop: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
-<span class="nc" id="L107">    }catch(NoSuchElementException e) {</span>
-<span class="nc" id="L108">    	throw new TrackingNotFoundException();</span>
+<span class="nc" id="L106">    	Tracking tracking=tdao.findById(id).get();</span>
+<span class="nc" id="L107">    	return new ResponseEntity&lt;&gt;(&quot;Status of laptop: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
+<span class="nc" id="L108">    }catch(NoSuchElementException e) {</span>
+<span class="nc" id="L109">    	throw new TrackingNotFoundException();</span>
     }
     }
     
@@ -113,10 +114,10 @@ import com.service.RequestService;
     public ResponseEntity&lt;?&gt; getDeliveryPersonDetails(@PathVariable int deliveryid){
     	// DeliveryPersonNotFoundException
     	try {
-<span class="nc" id="L116">    	DeliveryPerson dp=ddao.findById(deliveryid).get();</span>
-<span class="nc" id="L117">    	return new ResponseEntity&lt;DeliveryPerson&gt;(dp, HttpStatus.OK);</span>
-<span class="nc" id="L118">    	}catch(NoSuchElementException e) {</span>
-<span class="nc" id="L119">        	throw new DeliveryPersonNotFoundException();</span>
+<span class="nc" id="L117">    	DeliveryPerson dp=ddao.findById(deliveryid).get();</span>
+<span class="nc" id="L118">    	return new ResponseEntity&lt;DeliveryPerson&gt;(dp, HttpStatus.OK);</span>
+<span class="nc" id="L119">    	}catch(NoSuchElementException e) {</span>
+<span class="nc" id="L120">        	throw new DeliveryPersonNotFoundException();</span>
         }
     }
 }

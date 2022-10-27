@@ -62,20 +62,6 @@ public class RequestTests {
 					Assertions.assertNotNull(rdao.findById(request.getRequestId()).get());
 			}
 			
-//			@Test
-//		    void testGetRequestFromDao() throws Exception {
-//		        Request r0=new Request(1,Request.Statuss.Waiting,"Recieved",LocalDate.now(),"Repair",null,null);
-//		        rdao.save(r0);
-//		        Request r1=rdao.findById(r0.getRequestId()).get();
-//		        Request r2=new Request();
-//		        r2.setRequestId(r1.getRequestId());
-//		        r2.setStatus(r1.getStatus());
-//		        r2.setRequestType(r1.getRequestType());
-//		        r2.setEmployee(r1.getEmployee());
-//		        //r2.setDeliverPerson(r1.getDeliverPerson());
-//		        assertThat(r2.getStatus()).isEqualTo(r0.getStatus());
-//		    }
-			
 	//API for Request		
 			@Test
 			void testAddDeliveryPersonDetails() throws HttpClientErrorException, URISyntaxException, JsonParseException{
@@ -109,9 +95,9 @@ public class RequestTests {
 					Request request=new Request();
 					request.setRequestId(id);
 					request.setEmployee(emp1);
-					//request.setStatus("Recieved");
+					request.setStatus(Request.Statuss.Waiting);
 					request.setRequestType("Repair");
-					//request.setDate("22nd September");
+					request.setDate(Date.valueOf(LocalDate.now()));
 					rdao.save(request);
 					RestTemplate template=new RestTemplate();
 				    final String url="http://localhost:"+port_number+"/addRequest";
