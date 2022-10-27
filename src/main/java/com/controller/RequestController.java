@@ -51,7 +51,8 @@ public class RequestController {
 			}
 			return new ResponseEntity<>("Request Submitted!", HttpStatus.OK);
     	}catch(Exception e) {
-        	throw new RequestCreationException();
+        	//throw new RequestCreationException();
+    		return new ResponseEntity<>(e, HttpStatus.OK);
         }
 
 	}

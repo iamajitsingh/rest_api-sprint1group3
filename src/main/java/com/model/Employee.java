@@ -50,8 +50,9 @@ public class Employee {
     @JsonIgnore
     private List<Complaints> complaints;   
 
-    @OneToMany(mappedBy="employee")
-    @JsonIgnore
+//    @OneToMany(mappedBy="employee")
+//    @JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Request> request;
 
 }

@@ -1,24 +1,30 @@
 package com.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.model.Request.Statuss;
 
 import lombok.*;
 
-@Entity
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class Request {
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int requestId;
-    private String adminId;
-    private String status;
+  //  private String adminId;
+    public enum Statuss { Waiting, Confirmed ,Rejected }
+    private Statuss status;
     private String requestType;
-    private String date;
+    private LocalDate date;
     
 	@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "fk_employee_id")
@@ -26,5 +32,10 @@ public class Request {
 
     @OneToOne(mappedBy="request")
 	@JsonIgnore
-	private DeliveryPerson deliverPerson;
+	private DeliveryPerson deliveryPerson;
+    
+    @OneToOne(mappedBy="request")
+    @JsonIgnore
+    private ServiceRating sr;
+
 }
