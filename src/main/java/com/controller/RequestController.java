@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.controllerexp.DeliveryPersonNotFoundException;
+import com.controllerexp.RequestCreationException;
 import com.controllerexp.RequestNotFoundException;
-import com.controllerexp.TrackingCreationException;
 import com.controllerexp.TrackingNotFoundException;
 import com.dao.DeliveryPersonDao;
 import com.dao.TrackingDao;
@@ -51,7 +51,7 @@ public class RequestController {
 			}
 			return new ResponseEntity<>("Request Submitted!", HttpStatus.OK);
     	}catch(Exception e) {
-        	throw new TrackingCreationException();
+        	throw new RequestCreationException();
         }
 
 	}
