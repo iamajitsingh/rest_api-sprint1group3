@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employeelaptopdeliverytracking</a> &gt; <a href="index.source.html" class="el_package">com.service</a> &gt; <span class="el_source">RequestService.java</span></div><h1>RequestService.java</h1><pre class="source lang-java linenums">package com.service;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.controllerexp.NullValuesFoundException;
+import com.controllerexp.RequestIdNotFoundException;
+import com.dao.RequestDao;
+import com.model.Request;
+
+@Service
+<span class="fc" id="L16">public class RequestService {</span>
+	
+	@Autowired
+	private RequestDao requestDao;
+	
+	/*public void addRequest(Request request) {
+		requestDao.save(request);
+	}*/
+	
+	public Request getRequest(int requestId) {
+<span class="nc" id="L26">		return requestDao.findById(requestId).get();</span>
+	}
+	
+	//siddhi------
+	public void addRequest(Request request) {
+<span class="nc" id="L31">		request.setStatus(Request.Statuss.Waiting);</span>
+<span class="nc" id="L32">		request.setDate(Date.valueOf(LocalDate.now()));</span>
+<span class="nc" id="L33">		requestDao.save(request);</span>
+		//return &quot;Added request&quot;;
+<span class="nc" id="L35">	}</span>
+	
+	public List&lt;Request&gt; getAllrequest(){
+<span class="nc" id="L38">		return requestDao.findAll();</span>
+	}
+//	enum Status { Confirmed ,Waiting ,Rejected }
+	public String updateRequest(int requestId,Request.Statuss status) throws RequestIdNotFoundException {
+<span class="nc bnc" id="L42" title="All 2 branches missed.">		for(Request r:requestDao.findAll()) {</span>
+<span class="nc bnc" id="L43" title="All 4 branches missed.">			if(r.getRequestId()==requestId &amp;&amp; r.getRequestType().equals(&quot;New Laptop&quot;)) {</span>
+<span class="nc" id="L44">				r.setStatus(status);</span>
+<span class="nc" id="L45">				requestDao.save(r);</span>
+<span class="nc" id="L46">				return &quot;updated request&quot;;</span>
+			}
+<span class="nc" id="L48">		}</span>
+<span class="nc" id="L49">		throw new RequestIdNotFoundException();</span>
+			
+	}
+
+	public int findRequestId(int requestId) throws RequestIdNotFoundException {
+<span class="nc bnc" id="L54" title="All 2 branches missed.">		for(Request r:requestDao.findAll()) {</span>
+<span class="nc bnc" id="L55" title="All 2 branches missed.">			if(r.getRequestId()==requestId ) {</span>
+<span class="nc" id="L56">				return 0;</span>
+			}
+<span class="nc" id="L58">		}</span>
+<span class="nc" id="L59">		throw new RequestIdNotFoundException();	</span>
+	}
+	public int listEmpty(List list) throws NullValuesFoundException {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">		if(list.size()!=0) {</span>
+<span class="nc" id="L63">		return 0;</span>
+		}
+<span class="nc" id="L65">		throw new NullValuesFoundException();</span>
+	}
+
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

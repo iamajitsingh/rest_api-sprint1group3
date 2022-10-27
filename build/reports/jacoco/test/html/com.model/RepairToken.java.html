@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RepairToken.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employeelaptopdeliverytracking</a> &gt; <a href="index.source.html" class="el_package">com.model</a> &gt; <span class="el_source">RepairToken.java</span></div><h1>RepairToken.java</h1><pre class="source lang-java linenums">package com.model;
+import javax.persistence.*;
+
+import lombok.Getter;
+
+import java.util.UUID;
+
+@Entity
+@Getter
+public class RepairToken {
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="fc" id="L14">	private int tokenId;</span>
+<span class="fc" id="L15">	private String token;</span>
+	
+	@OneToOne(cascade=CascadeType.MERGE,fetch=FetchType.EAGER)
+    @JoinColumn(name=&quot;fk_employee_id&quot;)
+<span class="fc" id="L19">	private Employee employee;</span>
+
+	@OneToOne(cascade=CascadeType.MERGE,fetch=FetchType.EAGER)
+    @JoinColumn(name=&quot;fk_repair_id&quot;)
+<span class="fc" id="L23">	private Repair repair;</span>
+
+	
+	public RepairToken() {
+<span class="fc" id="L27">		super();</span>
+<span class="fc" id="L28">	}</span>
+	
+	public void setTokenId(int tokenId) {
+<span class="fc" id="L31">		this.tokenId=tokenId;</span>
+<span class="fc" id="L32">	}</span>
+	
+	public void setEmployee(Employee employee) {
+<span class="fc" id="L35">		this.employee=employee;</span>
+<span class="fc" id="L36">	}</span>
+	public void setRepair(Repair repair) {
+<span class="fc" id="L38">		this.repair=repair;</span>
+<span class="fc" id="L39">	}</span>
+	
+	public void setToken() {
+<span class="fc" id="L42">		this.token=UUID.randomUUID().toString();   </span>
+<span class="fc" id="L43">	}</span>
+
+	
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

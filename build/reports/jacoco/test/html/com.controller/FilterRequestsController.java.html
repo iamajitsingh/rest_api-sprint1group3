@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FilterRequestsController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employeelaptopdeliverytracking</a> &gt; <a href="index.source.html" class="el_package">com.controller</a> &gt; <span class="el_source">FilterRequestsController.java</span></div><h1>FilterRequestsController.java</h1><pre class="source lang-java linenums">package com.controller;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.controllerexp.NoSuchAddressException;
+import com.controllerexp.NoSuchDateException;
+import com.controllerexp.NoSuchDeptException;
+import com.controllerexp.NoSuchEmailException;
+import com.dao.EmployeeDao;
+import com.dao.RequestDao;
+import com.model.Address;
+import com.model.Request;
+
+@RestController
+<span class="fc" id="L26">public class FilterRequestsController {</span>
+
+	
+	  @Autowired 
+	  RequestDao rdao;
+	  @Autowired 
+	  EmployeeDao edao;
+	     
+	//  @GetMapping(&quot;/filterbydate&quot;)
+	//  List&lt;Request&gt; findByDate() throws ParseException
+	//  {
+//		  Date start = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).parse(&quot;2022-01-01&quot;);
+//		  Date end = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;).parse(&quot;2022-10-25&quot;);
+//		  List&lt;Request&gt; req = rdao.findByDateBetween(start,end);
+//		  System.out.println(&quot;findBydate&quot;+req);
+//		  return req;
+	//  }
+	//  @GetMapping(&quot;/getempId/{empId}&quot;)
+	//  public List&lt;Request&gt; getmail(@PathVariable int empId)
+	//  {   
+//		  List&lt;Request&gt; request =edao.findById(empId).get().getRequest();
+//		  return request;
+	//  }
+	  
+	  @GetMapping(&quot;/getbydate/{date}&quot;)
+	  public ResponseEntity&lt;?&gt; getbydate(@PathVariable(&quot;date&quot;) Date date) throws Exception
+	  {
+		  try {
+<span class="nc" id="L54">		  List&lt;Request&gt; request = rdao.findByDate(date);</span>
+<span class="nc bnc" id="L55" title="All 4 branches missed.">		  if (request == null || request.isEmpty()) throw new Exception();</span>
+		  
+<span class="nc" id="L57">		  return new ResponseEntity&lt;List&gt;(request, HttpStatus.OK);</span>
+	  }
+<span class="nc" id="L59">		  catch(Exception e)</span>
+		  {
+<span class="nc" id="L61">			  throw new NoSuchDateException();</span>
+		  }
+	  }
+	  
+	  @GetMapping(&quot;/getdept/{department}&quot;)
+	  public ResponseEntity&lt;?&gt; getdept(@PathVariable(&quot;department&quot;) String department)throws Exception
+	  {
+		  try {
+<span class="nc" id="L69">		  List&lt;Request&gt; request =  edao.findAllByDepartment(department).getRequest();</span>
+<span class="nc bnc" id="L70" title="All 4 branches missed.">	      if (request == null || request.isEmpty()) throw new Exception();</span>
+<span class="nc" id="L71">		  return new ResponseEntity&lt;List&gt;(request, HttpStatus.OK);</span>
+	  }
+<span class="nc" id="L73">		  catch(Exception e)</span>
+		  {
+<span class="nc" id="L75">			  throw new NoSuchDeptException();</span>
+		  }
+	  }
+	  
+	  @PostMapping(&quot;/getlocation&quot;)
+	  public ResponseEntity&lt;?&gt; getloc(@RequestBody Address address) throws Exception
+	  {   try {
+<span class="nc" id="L82">		  List&lt;Request&gt; request =  edao.findByAddress(address).getRequest();</span>
+<span class="nc bnc" id="L83" title="All 4 branches missed.">		  if (request == null || request.isEmpty()) throw new Exception();</span>
+<span class="nc" id="L84">		  return new ResponseEntity&lt;List&gt;(request, HttpStatus.OK);</span>
+	  }
+<span class="nc" id="L86">	  catch(Exception e)</span>
+	  {
+<span class="nc" id="L88">		  throw  new NoSuchAddressException();</span>
+	  }
+	  }
+	  
+//	  @GetMapping(&quot;/getemp/{username}&quot;)
+//	  public List&lt;Request&gt; getuser(@PathVariable String username)
+//	  {
+//		  List&lt;Request&gt; request = edao.findByUsername(username).getRequest();
+//		  return request;
+//	  }
+	//  @GetMapping(&quot;/filterby/{empId}&quot;)
+	//  public List&lt;Request&gt; getReq(@PathVariable Request empId)
+//		{
+//			List&lt;Request&gt; request=rdao.findById(empId);
+//			return request;
+//		}
+	  
+	  @GetMapping(&quot;/getemailId/{email}&quot;)
+	  public ResponseEntity&lt;?&gt; getemailId(@PathVariable(&quot;email&quot;) String email) throws Exception
+	  {   
+		  try {
+<span class="nc" id="L109">		  List&lt;Request&gt; request =edao.findByEmail(email).get().getRequest();</span>
+<span class="nc bnc" id="L110" title="All 4 branches missed.">	      if (request == null || request.isEmpty()) throw new Exception();</span>
+		  
+<span class="nc" id="L112">		  return new ResponseEntity&lt;List&gt;(request, HttpStatus.OK);</span>
+	  }
+<span class="nc" id="L114">	  catch(Exception e)</span>
+		  {
+<span class="nc" id="L116">		    throw new NoSuchEmailException();</span>
+		  }
+	  }
+	  
+	
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

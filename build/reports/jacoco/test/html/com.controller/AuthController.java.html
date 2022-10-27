@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employeelaptopdeliverytracking</a> &gt; <a href="index.source.html" class="el_package">com.controller</a> &gt; <span class="el_source">AuthController.java</span></div><h1>AuthController.java</h1><pre class="source lang-java linenums">package com.controller;
+
+import java.util.NoSuchElementException;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import com.controllerexp.NotLoggedInException;
+import com.controllerexp.SignUpException;
+import com.controllerexp.TokenNotFoundException;
+import com.controllerexp.UserNotFoundException;
+import com.controllerexp.UserOrRepairNotFoundException;
+import com.model.Device;
+import com.model.Employee;
+import com.service.EmployeeService;
+import com.service.RepairService;
+
+@RestController
+@RequestMapping(&quot;/api&quot;)
+<span class="fc" id="L24">public class AuthController {</span>
+
+	@Autowired
+	private EmployeeService employeeService;
+	
+	@Autowired
+	private RepairService rservice;
+	
+    @Autowired
+    HttpSession session;
+
+	
+	@PostMapping(&quot;/auth/signup&quot;)
+	public ResponseEntity&lt;?&gt; registerUser(@RequestBody Employee employee){
+		try {
+<span class="nc" id="L39">		 boolean isAdded=employeeService.addEmployee(employee);</span>
+<span class="nc bnc" id="L40" title="All 2 branches missed.">		 if(!isAdded){</span>
+<span class="nc" id="L41">	            return new ResponseEntity&lt;&gt;(&quot;Username or email is already taken!&quot;, HttpStatus.BAD_REQUEST);</span>
+	        }	      
+
+<span class="nc" id="L44">		 return new ResponseEntity&lt;&gt;(&quot;User registered successfully&quot;, HttpStatus.OK);</span>
+
+<span class="nc" id="L46">	    } catch(Exception e) {</span>
+<span class="nc" id="L47">	    	throw new SignUpException();</span>
+	    }
+	}
+	
+	@PostMapping(&quot;/auth/login&quot;)
+	public ResponseEntity&lt;?&gt; loginuser(@RequestBody Employee user, HttpSession session) throws UserNotFoundException
+	    {
+			try {
+<span class="nc" id="L55">	        Employee empexists=employeeService.getEmployee(user.getEmpId());</span>
+<span class="nc bnc" id="L56" title="All 2 branches missed.">	        if(empexists==null)</span>
+	        {
+<span class="nc" id="L58">	            return new ResponseEntity&lt;&gt;(&quot;Invalid employee id!&quot;, HttpStatus.UNAUTHORIZED);</span>
+	        }
+	        else{
+<span class="nc" id="L61">	            session.setAttribute(&quot;user&quot;, empexists);</span>
+<span class="nc bnc" id="L62" title="All 4 branches missed.">	            if (user.getUsername().equals(empexists.getUsername()) &amp;&amp; user.getPassword().equals(empexists.getPassword())) {</span>
+<span class="nc" id="L63">		            return new ResponseEntity&lt;&gt;(&quot;You have now logged in!&quot;,HttpStatus.ACCEPTED);</span>
+		        }
+<span class="nc" id="L65">		        return new ResponseEntity&lt;&gt;(&quot;Username or password doesn't match!&quot;, HttpStatus.UNAUTHORIZED);</span>
+	        }
+<span class="nc" id="L67">	    } catch(NoSuchElementException e) {</span>
+<span class="nc" id="L68">	    	throw new UserNotFoundException();</span>
+	    }
+			
+	    }
+	
+
+    @GetMapping(&quot;/userprofile&quot;)
+    public ResponseEntity&lt;?&gt; getLoggedInUser() throws NotLoggedInException{
+    	try {
+<span class="nc" id="L77">    		Employee user = (Employee) session.getAttribute(&quot;user&quot;);</span>
+<span class="nc" id="L78">        	StringBuilder rtn=new StringBuilder();</span>
+<span class="nc" id="L79">        	rtn.append(&quot;User logged in: &quot;+user.getUsername());</span>
+<span class="nc" id="L80">        	rtn.append(&quot;\nName: &quot;+user.getName());</span>
+<span class="nc" id="L81">        	rtn.append(&quot;\nEmail: &quot;+user.getEmail());</span>
+<span class="nc" id="L82">        	rtn.append(&quot;\nDepartment: &quot;+user.getDepartment());</span>
+<span class="nc" id="L83">        	String rtnstring=rtn.toString();</span>
+<span class="nc" id="L84">    		return new ResponseEntity&lt;&gt;(rtnstring, HttpStatus.OK);</span>
+    	}
+<span class="nc" id="L86">    	catch (Exception e) {</span>
+<span class="nc" id="L87">    		throw new NotLoggedInException();</span>
+    	}
+    	
+    }
+    
+    @GetMapping(&quot;/logout&quot;)
+    public ResponseEntity&lt;?&gt; logOutUser() throws NotLoggedInException{
+    	try {
+<span class="nc" id="L95">    		session.invalidate();</span>
+<span class="nc" id="L96">        	return new ResponseEntity&lt;&gt;(&quot;You have logged out successfully&quot;, HttpStatus.OK);</span>
+
+    	}
+<span class="nc" id="L99">    	catch(Exception e) {</span>
+<span class="nc" id="L100">    		throw new NotLoggedInException();</span>
+    	}
+    }
+    
+	@GetMapping(&quot;/employee/{id}/device&quot;)  
+	public ResponseEntity&lt;?&gt; retriveEmployeeDeviceDetails(@PathVariable int id) 	{
+		try {
+<span class="nc" id="L107">			Employee employee=rservice.getEmployee(id);</span>
+<span class="nc" id="L108">			Device empdevice=employee.getDevice();</span>
+<span class="nc" id="L109">			return new ResponseEntity&lt;Device&gt;(empdevice,HttpStatus.OK);</span>
+			
+<span class="nc" id="L111">		} catch(Exception e) {</span>
+<span class="nc" id="L112">			throw new UserNotFoundException();</span>
+		}
+	
+	}
+	
+	@GetMapping(&quot;/viewRepairToken/{employeeid}/&quot;)
+	public ResponseEntity&lt;?&gt; getRepairToken(@PathVariable int employeeid){
+		try {
+<span class="nc" id="L120">			Employee employee=rservice.getEmployee(employeeid);</span>
+<span class="nc" id="L121">			return new ResponseEntity&lt;String&gt;(&quot;Your repair token is: &quot;+ employee.getRepairToken().getToken(), HttpStatus.OK);</span>
+
+<span class="nc" id="L123">		} catch(Exception e) {</span>
+<span class="nc" id="L124">			throw new UserOrRepairNotFoundException();</span>
+		}
+	}
+	
+	@GetMapping(&quot;/viewTokenStatus/{token}&quot;)
+	public ResponseEntity&lt;?&gt; getRepairTokenStatus(@PathVariable String token){
+		try {
+<span class="nc" id="L131">			String myTokenService=rservice.getRepairTokenStatus(token);</span>
+<span class="nc" id="L132">			return new ResponseEntity&lt;String&gt;(myTokenService, HttpStatus.OK);</span>
+<span class="nc" id="L133">		} catch(Exception e) {</span>
+<span class="nc" id="L134">			throw new TokenNotFoundException();</span>
+		}
+	}
+	
+	
+//	@DeleteMapping(&quot;/deleteemployee/{roll}&quot;)
+//	public String deleteEmployee(@PathVariable int roll) {
+//		return employeeService.deleteEmployee(roll);
+//	}
+//	
+//	@PatchMapping(&quot;/updateemployee&quot;)
+//	public String updateEmployee(@RequestBody Employee employee) {
+//		return employeeService.updateEmployee(employee);
+//	}
+//	
+//	@GetMapping(&quot;/all/{id}&quot;)
+//	public Optional&lt;Employee&gt; getEmployee(@PathVariable(name=&quot;id&quot;) int id) {
+//		return employeeService.getEmployee(id);
+//	}
+
+}	
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
