@@ -1,5 +1,6 @@
 package com.dao;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -11,6 +12,6 @@ import com.model.Request;
 @Repository
 public interface RequestDao extends JpaRepository<Request,Integer>{
 
-	List<Request> findByDate(LocalDate date);
+	List<Request> findByDate(Date date);
 
 }

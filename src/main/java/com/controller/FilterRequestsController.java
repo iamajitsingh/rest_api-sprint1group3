@@ -1,5 +1,6 @@
 package com.controller;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,7 +17,6 @@ import com.controllerexp.NoSuchAddressException;
 import com.controllerexp.NoSuchDateException;
 import com.controllerexp.NoSuchDeptException;
 import com.controllerexp.NoSuchEmailException;
-import com.dao.AdminDao;
 import com.dao.EmployeeDao;
 import com.dao.RequestDao;
 import com.model.Address;
@@ -25,8 +25,7 @@ import com.model.Request;
 @RestController
 public class FilterRequestsController {
 
-	@Autowired 
-	  AdminDao adao;
+	
 	  @Autowired 
 	  RequestDao rdao;
 	  @Autowired 
@@ -49,7 +48,7 @@ public class FilterRequestsController {
 	//  }
 	  
 	  @GetMapping("/getbydate/{date}")
-	  public ResponseEntity<?> getbydate(@PathVariable("date") LocalDate date) throws Exception
+	  public ResponseEntity<?> getbydate(@PathVariable("date") Date date) throws Exception
 	  {
 		  try {
 		  List<Request> request = rdao.findByDate(date);

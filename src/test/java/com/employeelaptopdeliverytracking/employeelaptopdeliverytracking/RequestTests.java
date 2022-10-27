@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.sql.Date;
 import java.time.LocalDate;
 
 import org.junit.jupiter.api.Assertions;
@@ -56,7 +57,7 @@ public class RequestTests {
 					request.setEmployee(emp1);
 					request.setStatus(Request.Statuss.Waiting);
 					request.setRequestType("Repair");
-					request.setDate(LocalDate.now());
+					request.setDate(Date.valueOf(LocalDate.now()));
 					rdao.save(request);
 					Assertions.assertNotNull(rdao.findById(request.getRequestId()).get());
 			}

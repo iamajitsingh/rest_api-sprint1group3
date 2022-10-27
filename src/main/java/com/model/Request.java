@@ -1,6 +1,6 @@
 package com.model;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import javax.persistence.*;
 
@@ -24,7 +24,7 @@ public class Request {
     public enum Statuss { Waiting, Confirmed ,Rejected }
     private Statuss status;
     private String requestType;
-    private LocalDate date;
+    private Date date;
     
 	@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "fk_employee_id")

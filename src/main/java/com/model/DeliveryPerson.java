@@ -1,12 +1,22 @@
 package com.model;
 
+import java.time.LocalDate;
+
 import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.model.Request.Statuss;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class DeliveryPerson {
 	
@@ -16,9 +26,6 @@ public class DeliveryPerson {
 	private String name;
 	private String contactNo;
 	
-	public DeliveryPerson() {
-		super();
-	}
 	
 	@OneToOne(mappedBy="deliveryperson")
 	@JsonIgnore

@@ -1,5 +1,6 @@
 package com.service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class RequestService {
 	//siddhi------
 	public void addRequest(Request request) {
 		request.setStatus(Request.Statuss.Waiting);
-		request.setDate(LocalDate.now());
+		request.setDate(Date.valueOf(LocalDate.now()));
 		requestDao.save(request);
 		//return "Added request";
 	}
