@@ -4,24 +4,30 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-<span class="pc bnc" id="L9" title="All 56 branches missed.">@Data</span>
+@Getter
+<span class="fc" id="L13">@Setter</span>
+<span class="fc" id="L14">@NoArgsConstructor</span>
+<span class="fc" id="L15">@AllArgsConstructor</span>
 @Entity
 public class Address {
 	
 	@Id
 	@GeneratedValue
-<span class="nc" id="L15">	private int addressId; </span>
-<span class="nc" id="L16">	private String street;</span>
-<span class="nc" id="L17">	private String city;</span>
-<span class="nc" id="L18">	private String state;</span>
-<span class="nc" id="L19">	private String pinCode;</span>
-<span class="nc" id="L20">	private String country;</span>
+<span class="fc" id="L21">	private int addressId; </span>
+<span class="fc" id="L22">	private String street;</span>
+<span class="fc" id="L23">	private String city;</span>
+<span class="fc" id="L24">	private String state;</span>
+<span class="fc" id="L25">	private String country;</span>
+<span class="fc" id="L26">	private String pinCode;</span>
 	
 	@OneToOne(mappedBy=&quot;address&quot;)
 	@JsonIgnore
-<span class="nc" id="L24">	private Employee employee;</span>
+<span class="fc" id="L30">	private Employee employee;</span>
 
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

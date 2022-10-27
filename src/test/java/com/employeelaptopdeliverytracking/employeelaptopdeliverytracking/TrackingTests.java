@@ -97,7 +97,7 @@ public class TrackingTests {
 				    assertThat(res.getStatusCode().equals(HttpStatus.OK));  
 				}
 				catch (HttpClientErrorException ex) {
-		           assertEquals("404 : \"Tracking Id is not valid!\"", ex.getMessage());
+		           assertEquals("404 : \"Tracking details not found!\"", ex.getMessage());
 		        }
 			}
 

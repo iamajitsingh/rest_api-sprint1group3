@@ -16,11 +16,11 @@ public class RepairToken {
 	
 	@OneToOne(cascade=CascadeType.MERGE,fetch=FetchType.EAGER)
     @JoinColumn(name=&quot;fk_employee_id&quot;)
-<span class="nc" id="L19">	private Employee employee;</span>
+<span class="fc" id="L19">	private Employee employee;</span>
 
 	@OneToOne(cascade=CascadeType.MERGE,fetch=FetchType.EAGER)
     @JoinColumn(name=&quot;fk_repair_id&quot;)
-<span class="nc" id="L23">	private Repair repair;</span>
+<span class="fc" id="L23">	private Repair repair;</span>
 
 	
 	public RepairToken() {

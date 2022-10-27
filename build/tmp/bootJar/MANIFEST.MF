@@ -1,2 +1,10 @@
 Manifest-Version: 1.0
+Spring-Boot-Classpath-Index: BOOT-INF/classpath.idx
+Spring-Boot-Layers-Index: BOOT-INF/layers.idx
+Start-Class: com.employeelaptopdeliverytracking.employeelaptopdelivery
+ tracking.EmployeelaptopdeliverytrackingApplication
+Spring-Boot-Classes: BOOT-INF/classes/
+Spring-Boot-Lib: BOOT-INF/lib/
+Spring-Boot-Version: 2.6.13
+Main-Class: org.springframework.boot.loader.JarLauncher
 

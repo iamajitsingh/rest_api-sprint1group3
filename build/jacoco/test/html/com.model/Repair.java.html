@@ -7,34 +7,41 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
-<span class="pc bnc" id="L13" title="All 74 branches missed.">@Data</span>
+@Getter
+<span class="fc" id="L18">@Setter</span>
+<span class="fc" id="L19">@NoArgsConstructor</span>
+<span class="fc" id="L20">@AllArgsConstructor</span>
 public class Repair
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="nc" id="L18">    private int repairId;</span>
-<span class="nc" id="L19">    private String employeeName;</span>
-<span class="nc" id="L20">    private String employeeUsername;</span>
-<span class="nc" id="L21">    private String status;</span>
-<span class="nc" id="L22">    private String issue;</span>
-<span class="nc" id="L23">    private String solution;</span>
-<span class="nc" id="L24">    private double repairCost;</span>
+<span class="fc" id="L25">    private int repairId;</span>
+<span class="fc" id="L26">    private String employeeName;</span>
+<span class="fc" id="L27">    private String employeeUsername;</span>
+<span class="fc" id="L28">    private String status;</span>
+<span class="fc" id="L29">    private String issue;</span>
+<span class="fc" id="L30">    private String solution;</span>
+<span class="fc" id="L31">    private double repairCost;</span>
     
     @Temporal(TemporalType.DATE)
     @JsonFormat
     (shape = JsonFormat.Shape.STRING, pattern = &quot;dd-MM-YYYY&quot;,timezone = &quot;IST&quot;)
-<span class="nc" id="L29">    private Date deliveryDate;</span>
+<span class="fc" id="L36">    private Date deliveryDate;</span>
 
     
     @OneToOne(cascade=CascadeType.MERGE,fetch=FetchType.EAGER)
     @JoinColumn(name=&quot;fk_device_id&quot;)
-<span class="nc" id="L34">	private Device device;</span>
+<span class="fc" id="L41">	private Device device;</span>
  
     @OneToOne(mappedBy=&quot;repair&quot;)
     @JsonIgnore
-<span class="nc" id="L38">    private RepairToken repairToken;</span>
+<span class="fc" id="L45">    private RepairToken repairToken;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -5,24 +5,29 @@ import javax.persistence.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-<span class="pc bnc" id="L9" title="All 40 branches missed.">@Data</span>
+@Getter
+<span class="pc" id="L13">@Setter</span>
+<span class="fc" id="L14">@NoArgsConstructor</span>
 @Entity
 public class Device {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="fc" id="L15">	private int deviceId;</span>
-<span class="nc" id="L16">	private String companyName;</span>
-<span class="nc" id="L17">	private String deviceConfig;</span>
+<span class="fc" id="L20">	private int deviceId;</span>
+<span class="nc" id="L21">	private String companyName;</span>
+<span class="nc" id="L22">	private String deviceConfig;</span>
 	
 	@OneToOne(mappedBy=&quot;device&quot;)
     @JsonIgnore
-<span class="nc" id="L21">    private Repair repair;</span>
+<span class="nc" id="L26">    private Repair repair;</span>
 	
 	@OneToOne(cascade=CascadeType.MERGE,fetch=FetchType.EAGER)
     @JoinColumn(name=&quot;fk_employee_id&quot;)
-<span class="nc" id="L25">	private Employee employee;</span>
+<span class="nc" id="L30">	private Employee employee;</span>
 	
 
 }
