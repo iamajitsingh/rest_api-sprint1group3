@@ -2,7 +2,6 @@ package com.employeelaptopdeliverytracking.employeelaptopdeliverytracking;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -20,14 +19,17 @@ import org.springframework.web.client.RestTemplate;
 
 import com.dao.DeviceDao;
 import com.dao.EmployeeDao;
+import com.dao.RepairDao;
 import com.dao.RepairTokenDao;
 import com.fasterxml.jackson.core.JsonParseException;
+import com.model.Address;
 import com.model.Device;
 import com.model.Employee;
+import com.model.Repair;
 import com.model.RepairToken;
 
 @SpringBootTest
-public class AuthControllerTests {
+public class AuthControllerAndRepairControllerTests {
 	@Autowired
 	EmployeeDao dao;
 	
@@ -36,6 +38,10 @@ public class AuthControllerTests {
 	
 	@Autowired
 	RepairTokenDao rtdao;
+	
+	@Autowired
+	RepairDao repairdao;
+	
 	
 	Employee em=new Employee();
 	Device dev=new Device();
@@ -57,7 +63,23 @@ public class AuthControllerTests {
 //		Assertions.assertNotNull(dao.findById(em.getEmpId()).get());
 //		Assertions.assertEquals(em.getUsername(),"iamajit62");
 	}
-	
+	@Test
+	void testGetEmployeeFromDao() throws Exception {
+		Employee e0=new Employee(3, "Ajit", "random@123","random@123","random123@hotmail.com","IT Services",null,null,null,null,null);
+		dao.save(e0);
+		Employee e1=dao.findById(e0.getEmpId()).get();
+		Employee e2=new Employee();
+		e2.setAddress(e1.getAddress());
+		e2.setDepartment(e1.getDepartment());
+		e2.setDevice(e1.getDevice());
+		e2.setEmail(e1.getEmail());
+		e2.setEmpId(e1.getEmpId());
+		e2.setName(e1.getName());
+		e2.setPassword(e1.getPassword());
+		e2.setUsername(e1.getUsername());
+		e2.setRepairToken(e1.getRepairToken());
+		assertThat(e2.getUsername()).isEqualTo(e0.getUsername());
+	}
 //	Dao for device
 	@Test
 	void testAddDeviceDao() throws Exception {
@@ -73,6 +95,24 @@ public class AuthControllerTests {
 		Assertions.assertNotNull(ddao.findById(dev.getDeviceId()).get());
 	}
 	
+	void testGetDeviceFromDao() throws Exception {
+		Device d0=new Device();
+		d0.setCompanyName("Apple");
+		d0.setDeviceConfig("M2 Macbook Air");
+		d0.setDeviceId(10);
+		d0.setRepair(null);
+		d0.setEmployee(null);
+		ddao.save(d0);
+		Device d1=ddao.findById(d0.getDeviceId()).get();
+		Device d2=new Device();
+		d2.setCompanyName(d1.getCompanyName());
+		d2.setDeviceConfig(d1.getDeviceConfig());
+		d2.setDeviceId(d1.getDeviceId());
+		d2.setEmployee(d1.getEmployee());
+		d2.setRepair(d1.getRepair());
+		assertThat(d2.getDeviceConfig()).isEqualTo(d0.getCompanyName());
+	}
+	
 //	Dao for RepairToken
 	@Test
 	void testAddRepairTokenDao() throws Exception {
@@ -83,6 +123,43 @@ public class AuthControllerTests {
 		rtdao.save(rt);
 		Assertions.assertNotNull(rtdao.findById(rt.getTokenId()).get());
 	}
+		
+	@Test
+	void testGetRepairTokenDao() throws Exception {
+		RepairToken rt0=new RepairToken();
+		rt0.setEmployee(null);
+		rt0.setRepair(null);
+		rt0.setToken();
+		rt0.setTokenId(2);
+		rtdao.save(rt0);
+		RepairToken rt1=new RepairToken();
+		rt1.setEmployee(rt0.getEmployee());
+		rt1.setToken();
+		rt1.setTokenId(rt0.getTokenId());
+		rt1.setRepair(rt0.getRepair());
+		assertThat(rt1.getTokenId()).isEqualTo(rt0.getTokenId());
+	}
+	
+// Dao for Repair
+	@Test
+	void testGetRepairFromDao() throws Exception {
+		Repair r0=new Repair(1,"Ajit","random@123","In progress","Laptop soaked","Change motherboard",2500,null,null,null);
+		repairdao.save(r0);
+		Repair r1=repairdao.findById(r0.getRepairId()).get();
+		Repair r2=new Repair();
+		r2.setDeliveryDate(r1.getDeliveryDate());
+		r2.setDevice(r1.getDevice());
+		r2.setEmployeeName(r1.getEmployeeName());
+		r2.setEmployeeUsername(r1.getEmployeeUsername());
+		r2.setIssue(r1.getIssue());
+		r2.setRepairCost(r1.getRepairCost());
+		r2.setRepairId(r1.getRepairId());
+		r2.setRepairToken(r1.getRepairToken());
+		r2.setSolution(r1.getSolution());
+		r2.setStatus(r1.getStatus());
+		assertThat(r2.getIssue()).isEqualTo(r0.getIssue());
+	}
+	
 	
 //API
 	@Test
@@ -154,7 +231,7 @@ public class AuthControllerTests {
 	
 	@Test
 	void testRetriveEmployeeDeviceDetails() throws HttpClientErrorException, URISyntaxException, JsonParseException{
-//		try {
+		try {
 			int id=1;
 			Employee emp1=new Employee();
 			emp1.setEmpId(id);
@@ -170,10 +247,10 @@ public class AuthControllerTests {
 		    URI uri=new URI(url);
 		    ResponseEntity<String> res=template.getForEntity(uri,String.class);
 		    assertThat(res.getStatusCode().equals(HttpStatus.OK));  
-//		}
-//		catch (HttpClientErrorException ex) {
-//           assertEquals("404 : \"Device/Employee details not found!\"", ex.getMessage());
-//        }
+		}
+		catch (HttpClientErrorException ex) {
+           assertEquals("404 : \"Device/Employee details not found!\"", ex.getMessage());
+        }
 	}
 	
 	@Test
@@ -230,4 +307,6 @@ public class AuthControllerTests {
 }
 		
 	}
+	
+
 }

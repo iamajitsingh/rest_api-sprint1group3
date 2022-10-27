@@ -4,9 +4,15 @@ import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Address {
 	
@@ -16,8 +22,8 @@ public class Address {
 	private String street;
 	private String city;
 	private String state;
-	private String pinCode;
 	private String country;
+	private String pinCode;
 	
 	@OneToOne(mappedBy="address")
 	@JsonIgnore
