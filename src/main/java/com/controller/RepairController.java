@@ -2,6 +2,7 @@ package com.controller;
 
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import com.controllerexp.DeviceNotFoundException;
 import com.controllerexp.DeviceSignUpException;
 import com.controllerexp.RepairNotFoundException;
-
+import com.dao.RepairDao;
 import com.model.Device;
 import com.model.Repair;
 import com.service.RepairService;
@@ -22,6 +23,8 @@ public class RepairController {
 	@Autowired
 	private RepairService rservice;
 	
+	@Autowired
+	private RepairDao rdao;
 	
 	@PostMapping("/addDeviceDetails")
 	public ResponseEntity<?> addDevice(@RequestBody Device device){
@@ -83,4 +86,16 @@ public class RepairController {
 		}
 			
 		}
+	
+	// Harsha
+	
+	@GetMapping("/getrepairdetails")
+    public List<Repair> getrepairdetails() throws RepairNotFoundException{
+        try {
+       
+        return rdao.findAll();
+    }catch(Exception e) {
+        throw new RepairNotFoundException();
+    }
+    }
 }
