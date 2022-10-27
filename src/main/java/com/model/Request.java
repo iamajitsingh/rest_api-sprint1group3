@@ -10,6 +10,7 @@ import lombok.*;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class Request {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,7 @@ public class Request {
     private String requestType;
     private String date;
     
-    @ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch=FetchType.EAGER)
     @JoinColumn(name = "fk_employee_id")
     private Employee employee;
 

@@ -1,22 +1,27 @@
 package com.model;
 
 import javax.persistence.*;
-import lombok.Data;
 
- 
-@Data
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Tracking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int trackingId;
     private String location;
     private String status;  
-    
-    public Tracking() {
-    	super();
-    }
-    @OneToOne(cascade=CascadeType.MERGE)
+
+	@OneToOne(cascade=CascadeType.MERGE)
     private DeliveryPerson deliveryperson;
 
 }

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TrackingController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employeelaptopdeliverytracking</a> &gt; <a href="index.source.html" class="el_package">com.controller</a> &gt; <span class="el_source">TrackingController.java</span></div><h1>TrackingController.java</h1><pre class="source lang-java linenums">package com.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.controllerexp.TrackingCreationException;
+import com.controllerexp.TrackingNotFoundException;
+import com.model.Tracking;
+import com.service.TrackingService;
+
+@RestController
+<span class="fc" id="L18">public class TrackingController {</span>
+	
+	@Autowired
+	private TrackingService trackingService;
+	
+	@PostMapping(&quot;/addTrackingObject&quot;)
+	public ResponseEntity&lt;String&gt; addTrackingObject(@RequestBody Tracking tracking){
+		try {
+<span class="nc" id="L26">			trackingService.addTracking(tracking);</span>
+<span class="nc" id="L27">			return new ResponseEntity&lt;String&gt;(&quot;Added Object!&quot;, HttpStatus.CREATED);</span>
+
+		}
+<span class="nc" id="L30">		catch (Exception e) {</span>
+<span class="nc" id="L31">			throw new TrackingCreationException();</span>
+		}
+	}
+	
+	@GetMapping(&quot;/gettrackingbyId/tracking_Id/{tracking_Id}&quot;)
+	public ResponseEntity&lt;String&gt; findByPk(@PathVariable(&quot;tracking_Id&quot;) int tracking_Id) throws TrackingNotFoundException{
+		try {
+<span class="nc" id="L38">			Tracking obj=trackingService.getDetails(tracking_Id);</span>
+<span class="nc" id="L39">			StringBuilder rtnString=new StringBuilder();</span>
+<span class="nc" id="L40">			rtnString.append(&quot;Status is: &quot;+obj.getStatus());</span>
+<span class="nc" id="L41">			rtnString.append(&quot;\nLocation is: &quot;+obj.getLocation());</span>
+<span class="nc" id="L42">			rtnString.append(&quot;\nTracking id: &quot;+obj.getTrackingId());</span>
+<span class="nc" id="L43">			String rtn= rtnString.toString();</span>
+<span class="nc" id="L44">			return new ResponseEntity&lt;&gt;(rtn, HttpStatus.OK);	</span>
+<span class="nc" id="L45">		} catch(Exception e) {</span>
+<span class="nc" id="L46">			throw new TrackingNotFoundException();</span>
+		}
+		
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

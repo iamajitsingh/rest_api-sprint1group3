@@ -60,6 +60,21 @@ public class RequestTests {
 					Assertions.assertNotNull(rdao.findById(request.getRequestId()).get());
 			}
 			
+			@Test
+		    void testGetRequestFromDao() throws Exception {
+		        Request r0=new Request(1,"1","Recieved","Repair","22nd September",null,null);
+		        rdao.save(r0);
+		        Request r1=rdao.findById(r0.getRequestId()).get();
+		        Request r2=new Request();
+		        r2.setRequestId(r1.getRequestId());
+		        r2.setAdminId(r1.getAdminId());
+		        r2.setStatus(r1.getStatus());
+		        r2.setRequestType(r1.getRequestType());
+		        r2.setEmployee(r1.getEmployee());
+		        r2.setDeliverPerson(r1.getDeliverPerson());
+		        assertThat(r2.getStatus()).isEqualTo(r0.getStatus());
+		    }
+			
 	//API for Request		
 			@Test
 			void testAddDeliveryPersonDetails() throws HttpClientErrorException, URISyntaxException, JsonParseException{

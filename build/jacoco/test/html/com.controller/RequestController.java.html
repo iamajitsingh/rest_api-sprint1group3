@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RequestController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employeelaptopdeliverytracking</a> &gt; <a href="index.source.html" class="el_package">com.controller</a> &gt; <span class="el_source">RequestController.java</span></div><h1>RequestController.java</h1><pre class="source lang-java linenums">package com.controller;
+import java.util.NoSuchElementException;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.controllerexp.DeliveryPersonNotFoundException;
+import com.controllerexp.RequestCreationException;
+import com.controllerexp.RequestNotFoundException;
+import com.controllerexp.TrackingNotFoundException;
+import com.dao.DeliveryPersonDao;
+import com.dao.TrackingDao;
+import com.model.DeliveryPerson;
+import com.model.Request;
+import com.model.Tracking;
+import com.service.EmployeeService;
+import com.service.RequestService;
+
+@RestController
+<span class="fc" id="L26">public class RequestController {</span>
+	
+	@Autowired
+    RequestService requestService;
+
+    @Autowired
+    EmployeeService employeeService;
+    
+    @Autowired 
+    DeliveryPersonDao ddao;
+    
+    @Autowired 
+    TrackingDao tdao;
+    
+    @PostMapping(&quot;/addRequest&quot;)
+	public ResponseEntity&lt;?&gt; addRequest(@RequestBody Request request){
+    	// Create a generic exception
+    	try {
+<span class="nc" id="L44">			requestService.addRequest(request);</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">			if(request.getRequestType().toLowerCase().equals(&quot;repair&quot;)) {</span>
+<span class="nc" id="L46">				DeliveryPerson dp=new DeliveryPerson();</span>
+<span class="nc" id="L47">				dp.setName(&quot;Random Allocation&quot;);</span>
+<span class="nc" id="L48">				dp.setContactNo(&quot;Random Number&quot;);</span>
+<span class="nc" id="L49">				dp.setRequest(request);</span>
+<span class="nc" id="L50">				ddao.save(dp);</span>
+			}
+<span class="nc" id="L52">			return new ResponseEntity&lt;&gt;(&quot;Request Submitted!&quot;, HttpStatus.OK);</span>
+<span class="nc" id="L53">    	}catch(Exception e) {</span>
+<span class="nc" id="L54">        	throw new RequestCreationException();</span>
+        }
+
+	}
+    
+    @PostMapping(&quot;/addDeliveryPersonDetails/{deliveryid}&quot;)
+   	public ResponseEntity&lt;?&gt; addDeliveryPersonDetails(@PathVariable int deliveryid, @RequestBody DeliveryPerson deliveryPerson) {
+    	// DeliveryPersonNotFoundException
+    	try {
+<span class="nc" id="L63">    	DeliveryPerson dp=ddao.findById(deliveryid).get();</span>
+<span class="nc" id="L64">       	dp.setName(deliveryPerson.getName());</span>
+<span class="nc" id="L65">       	dp.setContactNo(deliveryPerson.getContactNo());</span>
+<span class="nc" id="L66">    	ddao.save(dp);</span>
+<span class="nc" id="L67">   		return  new ResponseEntity&lt;&gt;(&quot;Delivery person: &quot;+deliveryPerson.getName(), HttpStatus.OK);</span>
+<span class="nc" id="L68">    	} catch(NoSuchElementException e) {</span>
+<span class="nc" id="L69">        	throw new DeliveryPersonNotFoundException();</span>
+        }
+   	}
+    
+    @PostMapping(&quot;/addtrackingdetails/{requestid}&quot;)
+	public ResponseEntity&lt;?&gt; addDetailsForTracking(@PathVariable int requestid, @RequestBody Tracking tracking) {
+    	// RequestOrDeliveryPersonNotFoundException
+    	try {
+<span class="nc" id="L77">    	tdao.save(tracking);</span>
+<span class="nc" id="L78">    	Request request=requestService.getRequest(requestid);</span>
+<span class="nc" id="L79">    	DeliveryPerson dp= ddao.findByRequest(request).get();</span>
+<span class="nc" id="L80">    	dp.setTracking(tracking);</span>
+<span class="nc" id="L81">    	ddao.save(dp);</span>
+<span class="nc" id="L82">		return  new ResponseEntity&lt;&gt;(&quot;Status of laptop: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
+<span class="nc" id="L83">    	}catch(NoSuchElementException e) {</span>
+<span class="nc" id="L84">        	throw new RequestNotFoundException();</span>
+        }
+	}
+    
+    @GetMapping(&quot;/setDeliveryTrackingUpdate/{id}/{update}&quot;)
+    public ResponseEntity&lt;?&gt; setTrackingUpdates(@PathVariable int id, @PathVariable String update){
+    	// TrackingNotFoundException
+    	try {
+<span class="nc" id="L92">    	Tracking tracking=tdao.findById(id).get();</span>
+<span class="nc" id="L93">    	tracking.setStatus(update);</span>
+<span class="nc" id="L94">    	tdao.save(tracking);</span>
+<span class="nc" id="L95">    	return new ResponseEntity&lt;&gt;(&quot;Status updated: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
+<span class="nc" id="L96">    } catch(NoSuchElementException e) {</span>
+<span class="nc" id="L97">    	throw new TrackingNotFoundException();</span>
+    }
+    }
+    
+    @GetMapping(&quot;/getDeliveryTrackingUpdate/{id}&quot;)
+    public ResponseEntity&lt;?&gt; getTrackingUpdates(@PathVariable int id){
+    	// TrackingNotFoundException
+    	try {
+<span class="nc" id="L105">    	Tracking tracking=tdao.findById(id).get();</span>
+<span class="nc" id="L106">    	return new ResponseEntity&lt;&gt;(&quot;Status of laptop: &quot;+tracking.getStatus(), HttpStatus.OK);</span>
+<span class="nc" id="L107">    }catch(NoSuchElementException e) {</span>
+<span class="nc" id="L108">    	throw new TrackingNotFoundException();</span>
+    }
+    }
+    
+    @GetMapping(&quot;/getDeliveryPersonDetails/{deliveryid}&quot;)
+    public ResponseEntity&lt;?&gt; getDeliveryPersonDetails(@PathVariable int deliveryid){
+    	// DeliveryPersonNotFoundException
+    	try {
+<span class="nc" id="L116">    	DeliveryPerson dp=ddao.findById(deliveryid).get();</span>
+<span class="nc" id="L117">    	return new ResponseEntity&lt;DeliveryPerson&gt;(dp, HttpStatus.OK);</span>
+<span class="nc" id="L118">    	}catch(NoSuchElementException e) {</span>
+<span class="nc" id="L119">        	throw new DeliveryPersonNotFoundException();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

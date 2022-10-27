@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Employee.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">employeelaptopdeliverytracking</a> &gt; <a href="index.source.html" class="el_package">com.model</a> &gt; <span class="el_source">Employee.java</span></div><h1>Employee.java</h1><pre class="source lang-java linenums">package com.model;
+
+import java.util.List;
+
+import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import lombok.Data;
+
+
+<span class="pc bnc" id="L12" title="All 88 branches missed.">@Data</span>
+@Entity
+
+@Table(uniqueConstraints = {
+        @UniqueConstraint(columnNames = {&quot;username&quot;}),
+        @UniqueConstraint(columnNames = {&quot;email&quot;})
+})
+public class Employee {
+	
+	@Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+<span class="fc" id="L23">    private int empId;</span>
+<span class="fc" id="L24">    private String name;</span>
+<span class="fc" id="L25">    private String username;</span>
+<span class="fc" id="L26">    private String password;</span>
+<span class="fc" id="L27">    private String email;</span>
+<span class="fc" id="L28">    private String department;</span>
+    
+    @OneToOne(cascade=CascadeType.ALL)
+    @JoinColumn(name=&quot;fk_add_id&quot;)
+<span class="fc" id="L32">    private Address address;</span>
+    
+    @OneToOne(mappedBy=&quot;employee&quot;)
+    @JsonIgnore
+<span class="nc" id="L36">    private Device device;</span>
+    
+    @OneToOne(mappedBy=&quot;employee&quot;)
+    @JsonIgnore
+<span class="nc" id="L40">    private RepairToken repairToken;</span>
+    
+    @OneToMany(mappedBy=&quot;employee&quot;)
+    @JsonIgnore
+<span class="nc" id="L44">    private List&lt;Complaints&gt; complaints;   </span>
+
+    @OneToMany(mappedBy=&quot;employee&quot;)
+    @JsonIgnore
+<span class="nc" id="L48">    private List&lt;Request&gt; request;</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

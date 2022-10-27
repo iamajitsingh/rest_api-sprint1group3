@@ -2,13 +2,17 @@ package com.model;
 
 import javax.persistence.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-import lombok.Data;
 
-
-@Data
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Complaints {
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,7 +21,7 @@ public class Complaints {
    private String description;
    private int requestId;
    
-   @ManyToOne(fetch=FetchType.EAGER)
+@ManyToOne(fetch=FetchType.EAGER)
    @JoinColumn(name = "fk_employee_id")
    private Employee employee;
 }

@@ -51,6 +51,19 @@ public class ComplaintsTests {
 				Assertions.assertNotNull(cdao.findById(complaint.getCompId()).get());
 		}
 		
+		@Test
+	    void testGetComplaintFromDao() throws Exception {
+	        Complaints c0=new Complaints(1,"Laptop Not Recieved","Haven't gotten laptop,has been 15 days",1,null);
+	        cdao.save(c0);
+	        Complaints c1=cdao.findById(c0.getCompId()).get();
+	        Complaints c2=new Complaints();
+	        c2.setCompId(c1.getCompId());
+	        c2.setTitle(c1.getTitle());
+	        c2.setDescription(c1.getDescription());
+	        c2.setRequestId(c1.getRequestId());
+	        assertThat(c2.getRequestId()).isEqualTo(c0.getRequestId());
+	    }
+		
 		//API for Complaints
 		@Test
 		void testAddComplaints() throws HttpClientErrorException, URISyntaxException, JsonParseException{

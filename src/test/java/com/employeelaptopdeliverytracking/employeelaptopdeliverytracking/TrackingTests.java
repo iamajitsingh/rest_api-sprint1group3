@@ -20,6 +20,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.dao.EmployeeDao;
 import com.dao.TrackingDao;
+import com.model.Complaints;
 import com.model.Tracking;
 
 @SpringBootTest
@@ -43,6 +44,19 @@ public class TrackingTests {
 					tdao.save(tracking);
 					Assertions.assertNotNull(tdao.findById(tracking.getTrackingId()).get());
 			}
+			
+			@Test
+		    void testGetTrackingFromDao() throws Exception {
+		        Tracking t0=new Tracking(1,"Mumbai","Recieved",null);
+		        tdao.save(t0);
+		        Tracking t1=tdao.findById(t0.getTrackingId()).get();
+		        Tracking t2=new Tracking();
+		        t2.setTrackingId(t1.getTrackingId());
+		        t2.setLocation(t1.getLocation());
+		        t2.setStatus(t1.getStatus());
+		        t2.setDeliveryperson(t1.getDeliveryperson());
+		        assertThat(t2.getLocation()).isEqualTo(t0.getLocation());
+		    }
 			
 			//API for Tracking
 			@Test
