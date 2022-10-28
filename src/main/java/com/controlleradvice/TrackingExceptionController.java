@@ -12,7 +12,7 @@ import com.controllerexp.TrackingNotFoundException;
 public class TrackingExceptionController {
    @ExceptionHandler(value = TrackingNotFoundException.class)
    public ResponseEntity<Object> exception(TrackingNotFoundException exception) {
-      return new ResponseEntity<>("Tracking Id is not valid!", HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>("Tracking details not found!", HttpStatus.NOT_FOUND);
    }
    
    @ExceptionHandler(value = TrackingCreationException.class)
