@@ -16,14 +16,14 @@
   
   <p align="center">
     Case Study solution presented for a training project (Java EE with Devops and Cloud (AWS)). A Springboot based REST API for an employee device portal. More in project details.
-    <br />
+	<ul>
+		<li>    <a href="https://github.com/iamajitsingh/Sprint2Evaluation_group3"><strong>Explore more documentation »</strong></a>
+</li>
+		<li>    <a href="https://github.com/iamajitsingh/rest_api-sprint1group3/issues">Report Bug</a>
+</li>
+		<li>    <a href="https://github.com/github_username/rest_api-sprint1group3/issues">Request Feature</a>
+</li>
 
-    <a href="https://github.com/iamajitsingh/Sprint2Evaluation_group3"><strong>Explore more documentation »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/iamajitsingh/rest_api-sprint1group3/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/rest_api-sprint1group3/issues">Request Feature</a>
   </p>
 </div>
 
