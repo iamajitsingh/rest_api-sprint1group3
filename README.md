@@ -12,23 +12,15 @@
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
   
   <p align="center">
-    Case Study solution presented by group 3 for sprint 1 as a part of Capgemini Training (Java EE with Devops and Cloud (AWS)).
+    Case Study solution presented for a training project (Java EE with Devops and Cloud (AWS)). A Springboot based REST API for an employee device portal. More in project details.
     <br />
-    Employees in organization are frequently on move. Laptop is a device, that can be quickly carried across locations. Also requirements related to hardware and software keep on changing , hence 
-	frequent updates in device is required. <br/>
-	An employee has to go through the lengthy process to connect the IT support to get the request for 
-	a laptop registered, and has to frequently follow up with IT team to cross check delivery status. <br />
-	This consumes lot of time. Quick repair, update and tracking of delivery will ensure faster services. Tracking of delivery status of 
-	devices will ensure safe delivery of device across location. <br />
-    <a href="https://github.com/iamajitsingh/rest_api-sprint1group3"><strong>Explore documentation »</strong></a>
+
+    <a href="https://github.com/iamajitsingh/Sprint2Evaluation_group3"><strong>Explore more documentation »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/rest_api-sprint1group3">View Demo</a>
-    ·
     <a href="https://github.com/iamajitsingh/rest_api-sprint1group3/issues">Report Bug</a>
     ·
     <a href="https://github.com/github_username/rest_api-sprint1group3/issues">Request Feature</a>
@@ -56,6 +48,11 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+Employees in an organization are frequently on move. A laptop is the primary working device for employees in most IT companies. It is a device that can and needs to be quickly carried across locations. IT requirements related to hardware and software keep on changing, hence frequent updates in device is required. <br/>
+An employee has to go through the lengthy process of connecting with IT support to get the request for 
+a laptop registered, and has to frequently follow up with the IT team to cross check delivery status. <br />
+This consumes lot of time. Quick repair, update and tracking of delivery will ensure faster services. Tracking of delivery status of 
+devices will ensure safe delivery of device across location. This portal (Employee device delivery/repair tracking application) serves to fulfil these purposes.<br />
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -75,12 +72,14 @@
 <details>
   <summary>Client</summary>
   <ul>
+	  <li><a href="https://swagger.io/tools/swagger-ui/>Swagger UI (API Testing)</a></li>
   </ul>
 </details>
 
 <details>
   <summary>Server</summary>
   <ul>
+	  <li><a href="https://tomcat.apache.org/download-90.cgi/">Apache Tomcat</a></li>
   </ul>
 </details>
 
@@ -95,25 +94,13 @@
 <summary>DevOps</summary>
   <ul>
     <li><a href="https://www.jenkins.io/">Jenkins</a></li>
+    <li><a href="https://www.docs.docker.com/">Docker</a></li>
+
   </ul>
 </details>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-
-<!-- Team Members -->
-## Team Members
-
-* Ajit Singh - [@iamajitsingh](https://github.com/iamajitsingh)
-* T Harshasai -  [@Harshasai454](https://github.com/Harshasai454)
-* Siddhi Khanvilkar - [@siddhikhanvilkar](https://github.com/siddhikhanvilkar)
-* Divyangna Kumari Sinha - [@Ixdia](https://github.com/Ixdia)
-* Janhavi Paruchuri [@anvija](https://github.com/anvija)
-* Sravan - [@sai-0402](https://github.como/sai-0402)
-<br/>
-Project Link: [https://github.com/iamajitsingh/rest_api-sprint1group3/](https://github.com/iamajitsingh/rest_api-sprint1group3/)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
